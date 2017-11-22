@@ -30,19 +30,9 @@ function defaultParameterValue(a, b) {
  Количество переданных аргументов заранее неизвестно
  */
 function returnArgumentsArray() {
-    let argumentArray = [];
+    var args = [...arguments];
 
-    if (arguments.length > 0) {
-        // console.log('arguments.length 1 ', arguments.length)
-        for (let i = 0; i <= arguments.length; i++) {
-            argumentArray.push(arguments[i])
-        }
-        // console.log('test', argumentArray);
-    }
-    // console.log('arguments.length 2 ', arguments.length)
-    // console.log('array', argumentArray)
-
-    return argumentArray;
+    return args;
 }
 
 /*
@@ -74,16 +64,21 @@ function returnCounter(number) {
 
 /*
  Задание 6 *:
-
  Функция должна принимать другую функцию (F) и некоторое количество дополнительных аргументов
  Функция должна привязать переданные аргументы к функции F и вернуть получившуюся функцию
  */
 function bindFunction(fn) {
-    return F;
+    console.log(arguments)
+
+    return function () {
+        return fn.apply(context, arguments);
+    };
 }
 
-function F(){
-}
+
+
+
+
 
 export {
     returnFirstArgument,
