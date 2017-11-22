@@ -15,12 +15,8 @@ function returnFirstArgument(arg) {
  Функция должна принимать два аргумента и возвращать сумму переданных значений
  Значение по умолчанию второго аргумента должно быть 100
  */
-function defaultParameterValue(a, b) {
-  if (b) {
-      return a + b;
-  } else {
-      return a + 100;
-  }
+function defaultParameterValue(a, b = 100) {
+    return a + b;
 }
 
 /*
@@ -30,9 +26,7 @@ function defaultParameterValue(a, b) {
  Количество переданных аргументов заранее неизвестно
  */
 function returnArgumentsArray() {
-    var args = [...arguments];
-
-    return args;
+    return  [...arguments];
 }
 
 /*
@@ -57,9 +51,7 @@ function returnCounter(number) {
     if (number > 0)
         num = number;
 
-    return function F() {
-        return num = num + 1;
-    };
+    return () => num += 1;
 }
 
 /*
@@ -68,17 +60,8 @@ function returnCounter(number) {
  Функция должна привязать переданные аргументы к функции F и вернуть получившуюся функцию
  */
 function bindFunction(fn) {
-    console.log(arguments)
-
-    return function () {
-        return fn.apply(context, arguments);
-    };
+    return fn.bind(...[...arguments])
 }
-
-
-
-
-
 
 export {
     returnFirstArgument,
