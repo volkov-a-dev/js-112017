@@ -11,7 +11,7 @@
  */
 
 function isAllTrue(array, fn) {
-    if (!(typeof array === 'object' && array.hasOwnProperty(length)) || array.length === 0 ) {
+    if (!(typeof array === 'object' && array.length)) {
         throw new Error('empty array')
     }
 
@@ -20,7 +20,7 @@ function isAllTrue(array, fn) {
     }
 
     for (let i = 0; i < array.length; i++) {
-        if (fn(array[i]) === false)
+        if (!fn(array[i]))
             return false
     }
 
@@ -37,7 +37,7 @@ function isAllTrue(array, fn) {
  Зарпещено использовать встроенные методы для работы с массивами
  */
 function isSomeTrue(array, fn) {
-    if (!(typeof array === 'object' && array.hasOwnProperty(length)) || array.length === 0 ) {
+    if (!(typeof array === 'object' && array.length)) {
         throw new Error('empty array')
     }
 
