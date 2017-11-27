@@ -30,11 +30,14 @@ function map(array, fn) {
  Напишите аналог встроенного метода reduce для работы с массивами
  */
 function reduce(array, fn, initial) {
+    let i = 0;
+
     if (!initial) {
         initial = array[0];
+        i = 1;
     }
 
-    for (let i = 0; i < array.length; i++) {
+    for (i; i < array.length; i++) {
         initial = fn(initial, array[i], [i], array)
     }
 
@@ -91,6 +94,9 @@ function upperProps(obj) {
  Напишите аналог встроенного метода slice для работы с массивами
  */
 function slice(array, from, to) {
+    console.log('array', array);
+    console.log('from', from);
+    console.log('to', to);
 }
 
 /*
