@@ -6,7 +6,9 @@
  */
 function forEach(array, fn) {
     for (let i in array) {
-        fn(array[i], [i], array)
+        if (array[i]) {
+            fn(array[i], [i], array)
+        }
     }
 
     return array;
@@ -18,8 +20,11 @@ function forEach(array, fn) {
  */
 function map(array, fn) {
     let copyArray = [];
-    for (let i in array)  {
-        copyArray.push(fn(array[i], [i], array))
+
+    for (let i in array) {
+        if (array[i]) {
+            copyArray.push(fn(array[i], [i], array))
+        }
     }
 
     return copyArray
@@ -42,7 +47,6 @@ function reduce(array, fn, initial) {
     }
 
     return initial
-
 }
 
 /*
@@ -52,6 +56,7 @@ function reduce(array, fn, initial) {
  */
 function deleteProperty(obj, prop) {
     delete obj[prop];
+
     return obj
 }
 
@@ -61,8 +66,9 @@ function deleteProperty(obj, prop) {
  Функция должна проверить существует ли укзаанное свойство в указанном объекте
  */
 function hasProperty(obj, prop) {
-    if (prop in obj)
+    if (prop in obj) {
         return true;
+    }
 
     return false
 }
@@ -83,7 +89,9 @@ function upperProps(obj) {
     let array = [];
 
     for (let i in obj) {
-        array.push(i.toUpperCase())
+        if (i) {
+            array.push(i.toUpperCase())
+        }
     }
 
     return array
@@ -98,14 +106,17 @@ function slice(array, from, to) {
     let start = (from < 0) ? from + array.length : from;
     let end = (to < 0) ? to + array.length : to;
 
-    if (!start)
+    if (!start) {
         start = 0;
+    }
 
-    if (!end)
+    if (!end) {
         end = array.length;
+    }
 
-    if (from === 0 && to === 0)
+    if (from === 0 && to === 0) {
         return newArray;
+    }
 
     for (let i = 0; i < array.length; i++) {
         if (i >= start && i < end ) {
