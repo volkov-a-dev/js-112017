@@ -122,6 +122,11 @@ function slice(array, from, to) {
  Proxy должен перехватывать все попытки записи значений свойств и возводить это значение в квадрат
  */
 function createProxy(obj) {
+    return new Proxy(obj, {
+        set(target, property, value) {
+            return target[property] = value * value;
+        }
+    })
 }
 
 export {
