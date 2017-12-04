@@ -29,7 +29,7 @@ function removeListener(eventName, target, fn) {
  * @param {Element} target - элемент, на который нужно добавить обработчик
  */
 function skipDefault(eventName, target) {
-    return target.addEventListener(eventName, function(e){
+    return target.addEventListener(eventName, function(e) {
         e.preventDefault();
     })
 }
