@@ -136,6 +136,7 @@ filterInput.addEventListener('keyup', function(event) {
             });
     } else {
         filterResult.innerHTML = '';
+        filterInput.style.display = 'block';
     }
 });
 
