@@ -19,7 +19,7 @@
  * то необходимо показать надпись "Не удалось загрузить города" и кнопку "Повторить".
  * При клике на кнопку, процесс загруки повторяется заново
  */
-
+import { loadAndSortTowns } from './index'
 /**
  * homeworkContainer - это контейнер для всех ваших домашних заданий
  * Если вы создаете новые html-элементы и добавляете их на страницу, то дабавляйте их только в этот контейнер
@@ -36,31 +36,7 @@ let homeworkContainer = document.querySelector('#homework-container');
  * @return {Promise<Array<{name: string}>>}
  */
 function loadTowns() {
-    let promise = new Promise((resolve, reject) => {
-        const requestM = new XMLHttpRequest();
-
-        requestM.open('get', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
-        requestM.send();
-        requestM.addEventListener('progress', function () {
-            if (requestM.status === 200) {
-                dispBlock();
-                resolve(JSON.parse(requestM.response).sort((a, b) => {
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-
-                    return 0;
-                }))
-            }
-            reject();
-        })
-    });
-
-    return promise
+    return loadAndSortTowns();
 }
 
 /**

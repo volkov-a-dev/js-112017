@@ -21,15 +21,19 @@ function delayPromise(seconds) {
  *
  * @return {Promise<Array<{name: String}>>}
  */
+
+
 function loadAndSortTowns() {
-    return new Promise((resolve, reject) => {
+    let promise = new Promise((resolve, reject) => {
         const requestM = new XMLHttpRequest();
         requestM.open('get', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
         requestM.send();
         requestM.addEventListener('progress', function () {
             if (requestM.status === 200) {
-                console.log(JSON.parse(requestM.response));
-                resolve(JSON.parse(requestM.response).sort((a, b) => {
+                let arrayResponse = JSON.parse(requestM.response);
+
+                resolve(arrayResponse.sort((a, b) => {
+
                     if (a.name > b.name) {
                         return 1;
                     }
@@ -45,6 +49,8 @@ function loadAndSortTowns() {
             }
         })
     })
+
+    return promise
 }
 
 export {
