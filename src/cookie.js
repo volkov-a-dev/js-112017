@@ -40,7 +40,42 @@ let addButton = homeworkContainer.querySelector('#add-button');
 let listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
+
 });
 
 addButton.addEventListener('click', () => {
+    let name = addNameInput.value;
+    let val = addValueInput.value;
+    let cookieVal = name + '=' + val;
+
+    document.cookie = cookieVal;
+
+    viewCookes();
 });
+
+function listCookes() {
+
+    let a = document.cookie.split(';').reduce((prev, current) => {
+        const [name, value] = current.split('=');
+
+        prev[name.trim()] = value.trim();
+
+        return prev
+    }, {});
+console.log('===_____________________________',a)
+    return a;
+}
+
+function viewCookes() {
+    let getLists = listCookes();
+
+    // console.log('getLists', getLists)
+
+    for (let prop in getLists) {
+        let name = prop;
+        let val = getLists[prop];
+        listTable.innerHTML = '';
+    }
+}
+
+viewCookes();
