@@ -101,7 +101,7 @@ function searchEvent(event) {
                 loadingBlock.style.display = 'none';
                 filterBlock.style.display = 'block';
                 filterInput.style.display = 'none';
-                createElement('Повторить', 'button', filterResult);searchEvent
+                createElement('Повторить', 'button', filterResult);
                 createElement('Не удалось загрузить города...', 'div', filterResult);
                 document.querySelector('button').addEventListener('click', function() {
                     filterResult.innerHTML = '';
