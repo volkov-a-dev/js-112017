@@ -74,7 +74,10 @@ function createElement(text, elem, parent) {
     parent.appendChild(element);
 }
 
-filterInput.addEventListener('keyup', function(event) {
+filterInput.addEventListener('keyup', searchEvent);
+
+function searchEvent(event) {
+    dispBlock();
     let valInput = event.target.value.trim();
 
     if (valInput.length > 0) {
@@ -83,14 +86,12 @@ filterInput.addEventListener('keyup', function(event) {
                 let country = [];
 
                 filterResult.innerHTML ='';
-
                 e.forEach(function (item) {
                     if (isMatching(item.name, valInput)) {
                         createElement(item.name, 'div', filterResult);
                         country.push(item.name)
                     }
                 });
-
                 if (country.length == 0) {
                     createElement('Нечего не найдено', 'div', filterResult);
                 }
@@ -100,21 +101,20 @@ filterInput.addEventListener('keyup', function(event) {
                 loadingBlock.style.display = 'none';
                 filterBlock.style.display = 'block';
                 filterInput.style.display = 'none';
-                createElement('Повторить', 'button', filterResult);
+                createElement('Повторить', 'button', filterResult);searchEvent
                 createElement('Не удалось загрузить города...', 'div', filterResult);
                 document.querySelector('button').addEventListener('click', function() {
-                    console.log('click refrash');
                     filterResult.innerHTML = '';
                     loadingBlock.style.display = 'block';
                     filterBlock.style.display = 'none';
-                    loadTowns()
+                    searchEvent(event);
                 })
             });
     } else {
         filterResult.innerHTML = '';
         filterInput.style.display = 'block';
     }
-});
+}
 
 export {
     loadTowns,

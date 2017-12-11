@@ -22,10 +22,10 @@ function delayPromise(seconds) {
  * @return {Promise<Array<{name: String}>>}
  */
 
-
 function loadAndSortTowns() {
     let promise = new Promise((resolve, reject) => {
         const requestM = new XMLHttpRequest();
+
         requestM.open('get', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
         requestM.send();
         requestM.addEventListener('progress', function () {
@@ -45,10 +45,10 @@ function loadAndSortTowns() {
                     return 0;
                 }))
             } else {
-                reject();
+                return reject(new Error(''));
             }
         })
-    })
+    });
 
     return promise
 }
