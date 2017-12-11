@@ -1,53 +1,44 @@
-/* ДЗ 6.1 - Асинхронность и работа с сетью */
+/* ДЗ 7.1 - BOM */
 
 /**
- * Функция должна создавать Promise, который должен быть resolved через seconds секунду после создания
+ * Функция должна создавать окно с указанным именем и размерами
  *
- * @param {number} seconds - количество секунд, через которое Promise должен быть resolved
- * @return {Promise}
+ * @param {number} name - имя окна
+ * @param {number} width - ширина окна
+ * @param {number} height - высота окна
+ * @return {Window}
  */
-function delayPromise(seconds) {
-    return new Promise((resolve, reject) => {
-        setTimeout(function() {
-            resolve();
-        }, seconds*1000)
-    });
+function createWindow(name, width, height) {
 }
 
 /**
- * Функция должна вернуть Promise, который должен быть разрешен массивом городов, загруженным из
- * https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
- * Элементы полученного массива должны быть отсортированы по имени города
+ * Функция должна закрывать указанное окно
  *
- * @return {Promise<Array<{name: String}>>}
+ * @param {Window} window - окно, размер которого надо изменить
  */
-function loadAndSortTowns() {
-    return new Promise((resolve, reject) => {
-        const requestM = new XMLHttpRequest();
-        requestM.open('get', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
-        requestM.send();
-        requestM.addEventListener('progress', function () {
-            if (requestM.status === 200) {
-                console.log(JSON.parse(requestM.response));
-                resolve(JSON.parse(requestM.response).sort((a, b) => {
-                    if (a.name > b.name) {
-                        return 1;
-                    }
+function closeWindow(window) {
+}
 
-                    if (a.name < b.name) {
-                        return -1;
-                    }
+/**
+ * Функция должна создавать cookie с указанными именем и значением
+ *
+ * @param name - имя
+ * @param value - значение
+ */
+function createCookie(name, value) {
+}
 
-                    return 0;
-                }))
-            } else {
-                reject();
-            }
-        })
-    })
+/**
+ * Функция должна удалять cookie с указанным именем
+ *
+ * @param name - имя
+ */
+function deleteCookie(name) {
 }
 
 export {
-    delayPromise,
-    loadAndSortTowns
+    createWindow,
+    closeWindow,
+    createCookie,
+    deleteCookie
 };
