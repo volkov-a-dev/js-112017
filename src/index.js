@@ -8,7 +8,9 @@
  */
 function createDivWithText(text) {
     let newDiv = document.createElement('div');
+
     newDiv.textContent = text;
+
     return newDiv
 }
 
@@ -20,7 +22,9 @@ function createDivWithText(text) {
  */
 function createAWithHref(hrefValue) {
     let newLink = document.createElement('a');
+
     newLink.setAttribute('href', hrefValue);
+
     return newLink
 
 }
@@ -32,7 +36,7 @@ function createAWithHref(hrefValue) {
  * @param {Element} where - куда вставлять
  */
 function prepend(what, where) {
-   return where.insertBefore(what, where.firstChild);
+    return where.insertBefore(what, where.firstChild);
 }
 
 /**
@@ -63,6 +67,7 @@ function findAllPSiblings(where) {
     }
 
     findSiblings(where.firstChild);
+
     return findArray;
 }
 
@@ -217,6 +222,33 @@ function collectDOMStat(root) {
  * }
  */
 function observeChildNodes(where, fn) {
+    let config = { childList: true, subList: true };
+    let arrayAdd = [];
+    let arrayRemove = [];
+
+    let observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            console.log(mutation);
+            if (mutation.addedNodes.length) {
+                let array = mutation.addedNodes
+                for (let i = 0; i < array.length; i++){
+                    arrayAdd.push(array[i])
+                }
+                fn({ type: 'insert', nodes: arrayAdd })
+            }
+            if (mutation.removedNodes.length) {
+                let array = mutation.removedNodes;
+                for (let i = 0; i < array.length; i++){
+                    arrayRemove.push(array[i])
+                }
+                fn({ type: 'remove', nodes: arrayRemove })
+            }
+        });
+    });
+
+    return observer.observe(where, config);
+
+
 }
 
 export {
