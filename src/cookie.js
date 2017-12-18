@@ -24,7 +24,7 @@
  *
  * Запрещено использовать сторонние библиотеки. Разрешено пользоваться только тем, что встроено в браузер
  */
-
+import { deleteCookie } from './index'
 /**
  * homeworkContainer - это контейнер для всех ваших домашних заданий
  * Если вы создаете новые html-элементы и добавляете их на страницу, то дабавляйте их только в этот контейнер
@@ -40,7 +40,6 @@ let addButton = homeworkContainer.querySelector('#add-button');
 let listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
-console.info(filterNameInput.value)
 
     let array = listCookes();
     let searchText = filterNameInput.value;
@@ -54,24 +53,35 @@ console.info(filterNameInput.value)
         let val = array[prop];
 
         if ((name + ' ' + val).match(regex)) {
-            tr.innerHTML = `<td>${name}</td><td>${val}</td><td><button id=${val}>Удалить</button></td>`;
-            listTable.appendChild(tr)
+            tr.innerHTML = `<td>${name}</td><td>${val}</td><td><button id=${val}>удалить</button></td>`;
+            listTable.appendChild(tr);
         }
-
     }
 });
 
-
-
 addButton.addEventListener('click', () => {
+    let searchText = filterNameInput.value;
+    let regex = new RegExp(searchText.split(' ').join('|'));
+    let nameVal = addNameInput.value;
+    let valVal = addValueInput.value ;
     listTable.innerHTML = '';
-    let name = addNameInput.value;
-    let val = addValueInput.value;
-    let cookieVal = `${name}=${val}`;
-    // console.log(cookieVal);
-    document.cookie = cookieVal;
 
-    viewCookes();
+    if (searchText.length > 0) {
+        if ((`${nameVal} ${valVal}`).match(regex)) {
+            document.cookie = `${nameVal}=${valVal}`;
+            console.log(document.cookie)
+            viewCookes();
+        } else {
+            document.cookie = `${nameVal}=${valVal}`;
+            let tr = document.createElement('tr');
+            tr.innerHTML = `<td>${nameVal}</td><td>${valVal}</td><td><button id=${valVal}>Удалить</button></td>`;
+            listTable.appendChild(tr);
+        }
+    } else {
+        document.cookie = `${nameVal}=${valVal}`;
+        viewCookes();
+    }
+
 });
 
 function listCookes() {
@@ -97,6 +107,11 @@ function viewCookes() {
 
         tr.innerHTML = `<td>${name}</td><td>${val}</td><td><button id=${val}>Удалить</button></td>`;
         listTable.appendChild(tr)
+        tr.querySelector('button').addEventListener('click', function() {
+
+            deleteCookie(name);
+            document.querySelector('tbody').removeChild(this.closest('tr'));
+        })
     }
 }
 
