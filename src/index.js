@@ -1,53 +1,64 @@
-/* ДЗ 7.1 - BOM */
+VK.init({
+    apiId: 6304461
+});
 
-/**
- * Функция должна создавать окно с указанным именем и размерами
- *
- * @param {number} name - имя окна
- * @param {number} width - ширина окна
- * @param {number} height - высота окна
- * @return {Window}
- */
-function createWindow(name, width, height) {
-    let style = "width= "+ width +",height="+ height+ " ";
-    //to do array param - 3
-    return window.open('', name, style)
+function authVk() {
+    return new Promise((resolve, reject) => {
+        VK.Auth.login(data => {
+            if (data.session) {
+                resolve();
+            } else {
+                reject(new Error('Не удалось авторизоваться'));
+            }
+        }, 2);
+    });
 }
 
-/**
- * Функция должна закрывать указанное окно
- *
- * @param {Window} window - окно, размер которого надо изменить
- */
-function closeWindow(window) {
-    return window.close()
+function callAPI(method, params) {
+    params.v = '5.69';
+
+    return new Promise((resolve, reject) => {
+        VK.api(method, params, (data) => {
+            if (data.error) {
+                reject(data.error);
+            } else {
+                resolve(data.response);
+            }
+        });
+    })
 }
+(async () => {
+    try {
+        await authVk();
 
-/**
- * Функция должна создавать cookie с указанными именем и значением
- *
- * @param name - имя
- * @param value - значение
- */
-function createCookie(name, value) {
-    let item = name + '=' + value;
+        const [me] = await callAPI('users.get', { name_case : 'gen'});
+        const headerInfo = document.querySelector('#headerInfo');
+        headerInfo.textContent = `Друзья на странице ${me.first_name } ${me.last_name } `;
 
-    document.cookie = item;
-}
+        const friends = await callAPI('friends.get', { fields : 'city, country, photo_100'});
+        console.info(friends);
 
-/**
- * Функция должна удалять cookie с указанным именем
- *
- * @param name - имя
- */
-function deleteCookie(name) {
-    let cookie_date = new Date ( );
-    document.cookie = name += "=; expires=" + cookie_date.toGMTString();
-}
+        const template = document.querySelector('#user-template').textContent;
+        console.log(template)
 
-export {
-    createWindow,
-    closeWindow,
-    createCookie,
-    deleteCookie
-};
+        const render = Handlebars.compile(template);
+        console.log(render)
+
+        const html = render(friends);
+        console.log(html)
+        const results = document.querySelector('#results');
+        results.innerHTML = html;
+    } catch (e) {
+        console.log(e)
+    }
+
+})();
+// authVk()
+//     .then(() => {
+//         return callAPI('users.get', { fields: 'photo_100' })
+//     })
+//     .then((data) => {
+//         const headerInfo = document.querySelector('#headerInfo');
+//         headerInfo.textContent = `Друзьян на странице ${data[0].first_name }`;
+//         console.log(data)
+//     });
