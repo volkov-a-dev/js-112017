@@ -1,3 +1,5 @@
+import './style/main.scss';
+
 const tempalteLists = require('../filter-lists.hbs');
 console.log(tempalteLists)
 const filterModule = {
@@ -18,7 +20,7 @@ const filterModule = {
         return new Promise((resolve, reject) => {
             console.log('auth', this)
             VK.init({
-                apiId: 6307165
+                apiId: 6304461
             });
 
             VK.Auth.login(data => {
@@ -49,7 +51,7 @@ const filterModule = {
     renderFriends: function () {
         const left = tempalteLists(this.allArray)
 
-        const template = document.querySelector('.test2');
+        const template = document.querySelector('#friends-filter__get');
         template.innerHTML = left;
     }
 };

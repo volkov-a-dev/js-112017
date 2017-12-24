@@ -1,0 +1,139 @@
+.friends-filter {
+  &__container {
+    max-width: 620px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font: 400 16px/18px $firaSans;
+    height: 45px;
+    background-color: $mainColor;
+    color: #fff;
+    padding: 0 14px;
+
+    &-close-icon {
+      width: 12px;
+      height: 12px;
+      stroke: #fff ;
+    }
+  }
+
+  &__input {
+    height: 21px;
+    width: 100%;
+    max-width: 258px;
+    padding-left: 25px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    font: 400 12px/16px $firaSans;
+  }
+
+  &__items {
+    max-height: 312px;
+    overflow: auto;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    height: 45px;
+    padding: 0 17px;
+    background-color: #f0f0f0;
+
+    &-get {
+      position: relative;
+      width: 50%;
+    }
+    &-picked {
+      padding-left: 21px;
+      width: 50%;
+    }
+
+    &-icon {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: #ccc;
+      &-container {
+        position: absolute;
+      }
+    }
+  }
+
+  &__blocks {
+    display: flex;
+    padding: 0 14px;
+    border: 1px solid #f0f0f0;
+  }
+
+  &__block {
+    padding-left: 15px;
+  }
+
+  &__list-title {
+    font: 500 12px/18px $firaSans;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-top: 10px;
+  }
+
+  &__col {
+    width: 50%;
+    &:nth-child(odd) {
+      border-right: 1px solid $mainColor;
+    }
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 5px 6px 5px 7px;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    &-name {
+      font: 400 12px/16px $firaSans;
+    }
+
+    &-photo {
+      margin-right: 8px;
+      &-img {
+        width: 44px;
+        height:auto;
+        border-radius: 50%;
+      }
+    }
+  }
+  &__footer {
+    display: flex;
+    align-items: center;
+    height: 47px;
+    background-color: #f0f0f0;
+    &-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 7px;
+      padding: 0 14px;
+      border-radius: 10px;
+      height: 30px;
+      background-color: $mainColor;
+      color: #ffffff;
+      margin-left: auto;
+      font: 400 12px/18px $firaSans;
+      cursor: pointer;
+    }
+  }
+}

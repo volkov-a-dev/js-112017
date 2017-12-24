@@ -1,8 +1,15 @@
-<div class="test2">
+<div class="friends-filter__items">
     {{#each items}}
-        <div>
-            <div>{{first_name}} {{last_name}}</div>
-            <img src="{{photo_100}}"/>
+        <div class="friends-filter__user">
+            <div class="friends-filter__user-photo">
+                <img class="friends-filter__user-photo-img" src="{{photo_100}}"/>
+            </div>
+            <div class="friends-filter__user-name">{{first_name}} {{last_name}}</div>
+            <div class="friends-filter__user-btn">
+                <svg id="friends-filter__user-cross" class="friends-filter__user-cross-add" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 100 100">
+                    <path class="icon--line" d="M20,20 L80,80 M20,80 L80,20" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+                </svg>
+            </div>
         </div>
     {{/each}}
 </div>

@@ -6,12 +6,17 @@ let loaders = require('./webpack.config.loaders')();
 let path = require('path');
 
 loaders.push({
-    test: /\.css$/,
-    use: ExtractTextPlugin.extract({
-        fallback: "style-loader",
-        use: "css-loader"
-    })
-
+    test: /\.scss$/,
+    use: [{
+        loader: "style-loader"
+    }, {
+        loader: "css-loader"
+    }, {
+        loader: "sass-loader",
+        options: {
+            includePaths: ["absolute/path/a", "absolute/path/b"]
+        }
+    }]
 });
 
 module.exports = {
