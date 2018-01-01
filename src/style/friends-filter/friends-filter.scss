@@ -75,7 +75,7 @@
   }
 
   &__block {
-    padding-left: 15px;
+    //padding-left: 15px;
   }
 
   &__list-title {
@@ -115,7 +115,19 @@
         border-radius: 50%;
       }
     }
+
+    &-btn {
+      margin-left: auto;
+      transform: rotate(224deg);
+    }
+
+    &-cross {
+      width: 16px;
+      height: 16px;
+      stroke: #bdbdbd;
+    }
   }
+
   &__footer {
     display: flex;
     align-items: center;

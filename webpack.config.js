@@ -21,7 +21,7 @@ loaders.push({
 
 module.exports = {
     entry: {
-        main: './src/index.js',
+        main: './src/js/index.js',
     },
     output: {
         filename: '[name].[hash].js',
