@@ -18,8 +18,8 @@ const filterModule = {
         filterModule.filterGet();
         filterModule.dragStart();
         filterModule.drapOver();
-        filterModule.addedLists();
-        filterModule.removeLists();
+        filterModule.buttonEvent();
+        filterModule.buttonSave();
         filterModule.filterAdded();
     },
 
@@ -54,14 +54,16 @@ const filterModule = {
         })
     },
     renderFriends: function () {
-        if( localStorage.getItem("userGet")) {
-            let returnObj = JSON.parse(localStorage.getItem("userGet"))
-            console.log(returnObj)
-            // const left = hbsGet(this.allArray);
-            templateGet.innerHTML = hbsGet(returnObj);
+        // localStorage.setItem("allFriends", allArray);
+        // localStorage.setItem("added", addedArray);
+
+        if ( localStorage.getItem("added") && localStorage.getItem("allArray")) {
+            let returnAll = JSON.parse(localStorage.getItem("allArray"));
+            let returnAdded = JSON.parse(localStorage.getItem("added"));
+
+            templateGet.innerHTML = hbsGet(returnAll);
+            templateAdded.innerHTML = hbsAdded(returnAdded)
         } else {
-            let serialObj = JSON.stringify(this.allArray);
-            localStorage.setItem("userGet", serialObj);
             templateGet.innerHTML = hbsGet(this.allArray);
         }
     },
@@ -112,20 +114,26 @@ const filterModule = {
         })
     },
     dragStart : function () {
-        document.addEventListener('dragstart', filterModule.handleDragStart.bind(this), false);
+        document.addEventListener('dragstart', function (e) {
+            // console.log()
+            // e.dataTransfer.effectAllowed='move';
+            // e.dataTransfer.setData("Text", e.target.getAttribute('id'));
+            // e.dataTransfer.setDragImage(e.target,100,100);
+
+        }, false);
     },
+
     drapOver : function () {
-        document.addEventListener('dragend', filterModule.handleDragOver.bind(this), false);
+        document.addEventListener('dragend',function(e){
+            console.log(e)
+            // let data = e.dataTransfer.getData("Text");
+            // console.log('--___-->>>',data)
+            // e.target.appendChild(document.getElementById(data));
+            // e.stopPropagation();
+
+        }, false);
     },
-    handleDragStart : function (elem) {
-        // console.log('handleDragStart--------->', elem)
-    },
-    handleDragOver :function (elem) {
-        // console.log('handleDragOver-----------::>', elem  )
-        elem.preventDefault();
-        let data = elem.dataTransfer.getData("text");
-        // console.log('data--->>', data)
-    },
+
     findObject : function(array, key, value) {
         for (let i = 0; i < array.length; i++) {
             if (array[i][key] === Number(value)) {
@@ -135,13 +143,12 @@ const filterModule = {
         return null;
     },
 
-    addedLists : function () {
-        let btnAdd = document.querySelector('.friends-filter__items_get');
-        btnAdd.addEventListener('click', function (e) {
+    buttonEvent : function () {
+        let wrapper = document.querySelector('.friends-filter__blocks');
+        wrapper.addEventListener('click', function (e) {
             if (e.target.closest('.friends-filter__user-cross-add')) {
                 let elem =  e.target.closest('.friends-filter__user');
                 let elemNumber = elem.getAttribute('data-id-user');
-
                 if (!filterModule.addedArray.items) {
                     filterModule.addedArray.items = [];
                 }
@@ -149,64 +156,46 @@ const filterModule = {
                 let obj = filterModule.findObject(filterModule.allArray.items, 'id', elemNumber);
                 filterModule.addedArray.items.push(obj);
                 let removeItem =  filterModule.allArray.items.filter( e => e.id != elemNumber)
-
-
                 filterModule.allArray.items = removeItem;
-
                 templateAdded.innerHTML = '';
                 templateGet.innerHTML = '';
                 templateAdded.innerHTML = hbsAdded(filterModule.addedArray);
-                templateGet.innerHTML = hbsGet(filterModule.allArray)
-
+                templateGet.innerHTML = hbsGet(filterModule.allArray);
                 return false
             }
 
-        })
-    },
-
-    removeLists : function () {
-        let btnRemove = document.querySelector('#friends-filter__lists');
-        btnRemove.addEventListener('click', function (e) {
             if (e.target.closest('.friends-filter__user-cross-remove')) {
                 console.log('remove item')
                 let elem =  e.target.closest('.friends-filter__user');
                 let elemNumber = elem.getAttribute('data-id-user');
-
                 let obj = filterModule.findObject(filterModule.addedArray.items, 'id', elemNumber);
                 filterModule.allArray.items.push(obj);
                 let removeItem =  filterModule.addedArray.items.filter( e => e.id != elemNumber);
-
                 filterModule.addedArray.items = removeItem;
-
                 templateAdded.innerHTML = '';
                 templateGet.innerHTML = '';
                 templateAdded.innerHTML = hbsAdded(filterModule.addedArray);
                 templateGet.innerHTML = hbsGet(filterModule.allArray)
             }
+        })
+    },
+    
+    buttonSave : function () {
+        let btn = document.querySelector('.friends-filter__footer-btn');
+        btn.addEventListener('click', function () {
+            console.log('click!!!!');
+            let addedArray = JSON.stringify(filterModule.addedArray);
+            let allArray = JSON.stringify(filterModule.allArray);
+            localStorage.setItem("added", addedArray);
+            localStorage.setItem("allFriends", allArray);
+            console.log(typeof filterModule.addedArray)
+            console.log(typeof filterModule.allArray)
+
+            console.log(addedArray)
+            // alert('Coхранено!!')
         })
     }
 
 };
 
 window.onload = filterModule.init();
-
-
-// function drag(ev) {
-//     ev.dataTransfer.setData("text", ev.target.id);
-// }
-//
-// function drop(ev) {
-//     ev.preventDefault();
-//     var data = ev.dataTransfer.getData("text");
-//     ev.target.appendChild(document.getElementById(data));
-// }
-
-// function findObjectByKey(array, key, value) {
-//     for (var i = 0; i < array.length; i++) {
-//         if (array[i][key] === value) {
-//             return array[i];
-//         }
-//     }
-//     return null;
-// }
-//
