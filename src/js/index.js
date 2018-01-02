@@ -16,8 +16,7 @@ const filterModule = {
         let allFriends = await self.getFriends('friends.get', { fields : 'city, country, photo_100' })
         await self.renderFriends();
         filterModule.filterGet();
-        filterModule.dragStart();
-        filterModule.drapOver();
+        filterModule.dropEvent();
         filterModule.buttonEvent();
         filterModule.buttonSave();
         filterModule.filterAdded();
@@ -113,25 +112,75 @@ const filterModule = {
             }
         })
     },
-    dragStart : function () {
-        document.addEventListener('dragstart', function (e) {
-            // console.log()
-            // e.dataTransfer.effectAllowed='move';
-            // e.dataTransfer.setData("Text", e.target.getAttribute('id'));
-            // e.dataTransfer.setDragImage(e.target,100,100);
+    dropEvent : function () {
+        var col = document.querySelector('.friends-filter__user');
+        var bin = document.querySelector('#friends-filter__lists');
+        var eat = ['yum!', 'gulp', 'burp!', 'nom'];
+        var yum = document.createElement('div');
+        var msie = 0;
+        // [].forEach.call(cols, function(col) {
+            col.addEventListener('dragstart', handleDragStart, false);
+        //     // col.addEventListener('dragenter', handleDragEnter, false)
+            col.addEventListener('dragover', handleDragOver, false);
+            col.addEventListener('dragleave', handleDragLeave, false);
+        //     col.addEventListener('drop', handleDrop, false);
+            col.addEventListener('dragend', handleDrop, false);
+        // });
+        let dragSrcEl = null;
 
-        }, false);
-    },
+        function handleDragStart(e) {
+            console.log('start', this)
+            // this.style.opacity = '0.4';  // this / e.target is the source node.
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
+            e.dataTransfer.setData('Text', this.id); // required otherwise doesn't work
+        }
 
-    drapOver : function () {
-        document.addEventListener('dragend',function(e){
-            console.log(e)
-            // let data = e.dataTransfer.getData("Text");
-            // console.log('--___-->>>',data)
-            // e.target.appendChild(document.getElementById(data));
-            // e.stopPropagation();
+        function handleDragLeave(e) {
+            this.className = '';
 
-        }, false);
+        }
+        function handleDragOver (e) {
+            if (e.preventDefault) e.preventDefault(); // allows us to drop
+            this.className = 'over';
+            e.dataTransfer.dropEffect = 'copy';
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+            let el = e.toElement.dataset.idUser;
+
+
+            console.group()
+            console.info(e)
+            console.log(el)
+            console.groupEnd()
+
+            // el.parentNode.removeChild(el);
+            //
+            // stupid nom text + fade effect
+            bin.className = '';
+            // yum.innerHTML = eat[parseInt(Math.random() * eat.length)];
+
+            // var y = yum.cloneNode(true);
+            // bin.appendChild(y);
+
+            // setTimeout(function () {
+            //     let t = setInterval(function () {
+            //         if (y.style.opacity <= 0) {
+            //             if (msie) { // don't bother with the animation
+            //                 y.style.display = 'none';
+            //             }
+            //             clearInterval(t);
+            //         } else {
+            //             y.style.opacity -= 0.1;
+            //         }
+            //     }, 50);
+            // }, 250);
+
+            return false;
+        }
     },
 
     findObject : function(array, key, value) {
