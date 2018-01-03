@@ -26,7 +26,7 @@ const filterModule = {
         return new Promise((resolve, reject) => {
 
             VK.init({
-                apiId: 6307165
+                apiId: 6304461
             });
 
             VK.Auth.login(data => {
@@ -53,15 +53,16 @@ const filterModule = {
         })
     },
     renderFriends: function () {
-        // localStorage.setItem("allFriends", allArray);
-        // localStorage.setItem("added", addedArray);
 
-        if ( localStorage.getItem("added") && localStorage.getItem("allArray")) {
-            let returnAll = JSON.parse(localStorage.getItem("allArray"));
-            let returnAdded = JSON.parse(localStorage.getItem("added"));
+        let returnAll = JSON.parse(localStorage.getItem("allFriends"));
+        let returnAdded = JSON.parse(localStorage.getItem("added"));
+
+        if (returnAdded.length) {
+            filterModule.addedArray.items = returnAdded;
+            let addedArray = filterModule.addedArray;
 
             templateGet.innerHTML = hbsGet(returnAll);
-            templateAdded.innerHTML = hbsAdded(returnAdded)
+            templateAdded.innerHTML = hbsAdded(addedArray)
         } else {
             templateGet.innerHTML = hbsGet(this.allArray);
         }
@@ -113,73 +114,44 @@ const filterModule = {
         })
     },
     dropEvent : function () {
-        var col = document.querySelector('.friends-filter__user');
-        var bin = document.querySelector('#friends-filter__lists');
-        var eat = ['yum!', 'gulp', 'burp!', 'nom'];
-        var yum = document.createElement('div');
-        var msie = 0;
+        let col = document.querySelector('.friends-filter__user');
+        let bin = document.querySelector('#friends-filter__lists');
+
         // [].forEach.call(cols, function(col) {
             col.addEventListener('dragstart', handleDragStart, false);
-        //     // col.addEventListener('dragenter', handleDragEnter, false)
+            col.addEventListener('dragenter', handleDragEnter, false)
             col.addEventListener('dragover', handleDragOver, false);
-            col.addEventListener('dragleave', handleDragLeave, false);
-        //     col.addEventListener('drop', handleDrop, false);
-            col.addEventListener('dragend', handleDrop, false);
+            // col.addEventListener('dragleave', handleDragLeave, false);
+            // col.addEventListener('drop', handleDrop, false);
+
+            col.addEventListener( 'dragend', handleDrop, false);
         // });
-        let dragSrcEl = null;
+        // let dragSrcEl = null;
 
         function handleDragStart(e) {
-            console.log('start', this)
-            // this.style.opacity = '0.4';  // this / e.target is the source node.
-            dragSrcEl = this;
-            e.dataTransfer.effectAllowed = 'copy'; // only dropEffect='copy' will be dropable
-            e.dataTransfer.setData('Text', this.id); // required otherwise doesn't work
+            e.dataTransfer.effectAllowed = 'move';
+            console.log(e.target.id)
+            e.dataTransfer.setData('text', e.target.id);
+            return false;
         }
-
-        function handleDragLeave(e) {
-            this.className = '';
-
+        function handleDragEnter(e) {
+            e.preventDefault();
+            return false;
+            // return true
         }
         function handleDragOver (e) {
-            if (e.preventDefault) e.preventDefault(); // allows us to drop
-            this.className = 'over';
-            e.dataTransfer.dropEffect = 'copy';
+            e.preventDefault();
             return false;
+
         }
 
         function handleDrop(e) {
+    console.log(e)
             if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
-            let el = e.toElement.dataset.idUser;
 
+            var el = document.getElementById(e.dataTransfer.getData('Text'));
+console.log(el)
 
-            console.group()
-            console.info(e)
-            console.log(el)
-            console.groupEnd()
-
-            // el.parentNode.removeChild(el);
-            //
-            // stupid nom text + fade effect
-            bin.className = '';
-            // yum.innerHTML = eat[parseInt(Math.random() * eat.length)];
-
-            // var y = yum.cloneNode(true);
-            // bin.appendChild(y);
-
-            // setTimeout(function () {
-            //     let t = setInterval(function () {
-            //         if (y.style.opacity <= 0) {
-            //             if (msie) { // don't bother with the animation
-            //                 y.style.display = 'none';
-            //             }
-            //             clearInterval(t);
-            //         } else {
-            //             y.style.opacity -= 0.1;
-            //         }
-            //     }, 50);
-            // }, 250);
-
-            return false;
         }
     },
 
@@ -232,16 +204,12 @@ const filterModule = {
     buttonSave : function () {
         let btn = document.querySelector('.friends-filter__footer-btn');
         btn.addEventListener('click', function () {
-            console.log('click!!!!');
-            let addedArray = JSON.stringify(filterModule.addedArray);
+            let addedArray = JSON.stringify(filterModule.addedArray.items);
             let allArray = JSON.stringify(filterModule.allArray);
             localStorage.setItem("added", addedArray);
             localStorage.setItem("allFriends", allArray);
-            console.log(typeof filterModule.addedArray)
-            console.log(typeof filterModule.allArray)
 
-            console.log(addedArray)
-            // alert('Coхранено!!')
+            alert('Coхранено!!')
         })
     }
 
