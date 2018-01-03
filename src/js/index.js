@@ -26,7 +26,7 @@ const filterModule = {
         return new Promise((resolve, reject) => {
 
             VK.init({
-                apiId: 6304461
+                apiId: 6307165
             });
 
             VK.Auth.login(data => {
@@ -56,8 +56,8 @@ const filterModule = {
 
         let returnAll = JSON.parse(localStorage.getItem("allFriends"));
         let returnAdded = JSON.parse(localStorage.getItem("added"));
-
-        if (returnAdded.length) {
+console.log(returnAdded)
+        if (returnAdded) {
             filterModule.addedArray.items = returnAdded;
             let addedArray = filterModule.addedArray;
 
@@ -114,45 +114,67 @@ const filterModule = {
         })
     },
     dropEvent : function () {
-        let col = document.querySelector('.friends-filter__user');
-        let bin = document.querySelector('#friends-filter__lists');
+        let dragged, id;
 
-        // [].forEach.call(cols, function(col) {
-            col.addEventListener('dragstart', handleDragStart, false);
-            col.addEventListener('dragenter', handleDragEnter, false)
-            col.addEventListener('dragover', handleDragOver, false);
-            // col.addEventListener('dragleave', handleDragLeave, false);
-            // col.addEventListener('drop', handleDrop, false);
+        document.addEventListener("dragstart", function( event ) {
+            // store a ref. on the dragged elem
+            if (event.target.className == 'friends-filter__user') {
+                dragged = event.target;
+                id = event.target.id;
+                console.log('-------------',event)
+                // make it half transparent
+                event.target.style.opacity = .1;
+                event.dataTransfer.setData("text/plain", event.target.id);
+            }
 
-            col.addEventListener( 'dragend', handleDrop, false);
-        // });
-        // let dragSrcEl = null;
+        }, false);
+        document.addEventListener("dragend", function( event ) {
+            // reset the transparency
+            event.target.style.opacity = "";
+        }, false);
 
-        function handleDragStart(e) {
-            e.dataTransfer.effectAllowed = 'move';
-            console.log(e.target.id)
-            e.dataTransfer.setData('text', e.target.id);
-            return false;
-        }
-        function handleDragEnter(e) {
-            e.preventDefault();
-            return false;
-            // return true
-        }
-        function handleDragOver (e) {
-            e.preventDefault();
-            return false;
+        /* events fired on the drop targets */
+        document.addEventListener("dragover", function( event ) {
+            // prevent default to allow drop
+            event.preventDefault();
+        }, false);
+        document.addEventListener("dragenter", function( event ) {
+            // highlight potential drop target when the draggable element enters it
+            // if ( event.target.id == "friends-filter__lists" ) {
+            //     event.target.style.background = "purple";
+            // }
 
-        }
+            // console.log(event.target)
+        }, false);
 
-        function handleDrop(e) {
-    console.log(e)
-            if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+        document.addEventListener("dragleave", function( event ) {
+            // reset background of potential drop target when the draggable element leaves it
+            // if ( event.target.id == "friends-filter__lists" ) {
+            //     event.target.style.background = "";
+            // }
 
-            var el = document.getElementById(e.dataTransfer.getData('Text'));
-console.log(el)
+        }, false);
 
-        }
+        document.addEventListener("drop", function( event ) {
+            event.preventDefault();
+            if (event.target.id == "friends-filter__lists" ) {
+                event.target.style.background = "";
+
+                filterModule.addedArray.items = [];
+                dragged.parentNode.removeChild( dragged );
+                event.target.appendChild( dragged );
+                let tempArrayAll = filterModule.allArray.items;
+
+                let removeItem =  tempArrayAll.filter( e => e.id != id);
+                for (let i = 0; i < filterModule.allArray.count; i++) {
+                    if ((`${filterModule.allArray.items[i].id} `).match(id)) {
+                        filterModule.addedArray.items.push(filterModule.allArray.items[i])
+                        filterModule.allArray.items = removeItem;
+                        return false
+                    }
+                }
+            }
+        }, false);
     },
 
     findObject : function(array, key, value) {
