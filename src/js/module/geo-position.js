@@ -23,4 +23,4 @@ const geoPosition = {
     }
 }
 
-export geoPosition.positionNavigation();
+export default geoPosition.positionNavigation;

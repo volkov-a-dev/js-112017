@@ -1,9 +1,12 @@
 import '../style/main.scss';
 import mopsInit from './module/maps';
-
+ymaps.ready(function () {
+    ymaps.modules.require('theme.islands.cluster.balloon.layout.Content', mapsModule.init)
+});
 const mapsModule = {
     init () {
         mopsInit.initMaps();
+
     },
 
     // init: function () {
@@ -28,4 +31,4 @@ const mapsModule = {
     // }
 };
 
-window.onload = mapsModule.init();
+// window.onload = mapsModule.init();

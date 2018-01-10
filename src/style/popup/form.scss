@@ -1,0 +1,24 @@
+.popup__form {
+  &-title {
+    color: $mainColor;
+    font: 400 15px/22px $firaSans;
+    margin-bottom: 15px;
+  }
+  &-input {
+    border-radius: 12px;
+    border: 1px solid #919191;
+    height: 23px;
+    padding-left: 15px;
+    width: 100%;
+    font: 300 15px/22px $firaSans;
+  }
+  &-textarea {
+    font: 300 15px/22px $firaSans;
+    padding-left: 15px;
+    border-radius: 12px;
+
+  }
+  &-field {
+    margin-bottom: 15px;
+  }
+}

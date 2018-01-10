@@ -1,0 +1,57 @@
+.popup {
+  position: absolute;
+  top: 100px;
+  left: 400px;
+  max-width: 380px;
+  &__container {
+    background-color: #ffffff;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    background-color: $mainColor;
+    padding: 10px;
+    color: #fff;
+    &-icon {
+      &-svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
+    }
+    &-text {
+      font: 300 12px/14px $firaSans;
+    }
+  }
+  &__body {
+    padding: 10px;
+  }
+
+  &__testimonials {
+border-bottom: 1px solid #a4a4a4;
+    max-height: 125px;
+    overflow: auto;
+    margin-bottom: 10px;
+  }
+  &__testimonial {
+    color: #4f4f4f;
+    margin-bottom: 20px;
+    &-header {
+      display: flex;
+      margin-bottom: 5px;
+    }
+
+    &-name {
+      font: 500 16px/18px $firaSans;
+      margin-right: 10px;
+    }
+    &-description {
+      font: 400 16px/18px $firaSans;
+    }
+    &-body {
+      color: #808080;
+      font: 400 15px/22px $firaSans;
+    }
+  }
+}
