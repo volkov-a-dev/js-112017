@@ -1,8 +1,9 @@
 .popup {
   position: absolute;
   top: 100px;
-  left: 400px;
   max-width: 380px;
+  left: -9999px;
+
   &__container {
     background-color: #ffffff;
   }
@@ -22,6 +23,18 @@
     }
     &-text {
       font: 300 12px/14px $firaSans;
+    }
+    &-close {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &-svg {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
     }
   }
   &__body {

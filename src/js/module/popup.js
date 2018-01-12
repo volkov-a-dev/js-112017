@@ -1,27 +1,30 @@
 'use strict';
 
 import deCode from './decode';
-import creatPlacemark from './creat-placemark';
-
-const hbsGet = require('../../components/popup.hbs');
+import positionClick from './click-window';
 
 const popupEvent = function(map) {
     map.events.add('click', function (e) {
-        console.log(e, map.balloon.isOpen())
         if (!map.balloon.isOpen()) {
-            console.log('click!')
-            // async () => {
             let coords = e.get('coords');
-            let adderes = deCode(coords)
-            // console.log('---', adderes)
-            console.log(coords)
-            document.querySelector('#bx').innerHTML = hbsGet();
-            creatPlacemark(coords);
-            // }
+            console.log('clic open k' , coords)
+            deCode(map, coords, positionClick(e))
+
         } else {
+            console.log('clic clse k')
+
             map.balloon.close();
         }
     });
+
+    document.querySelector('.main-container').addEventListener('click', function (e) {
+
+        if (e.target.closest('.popup__header-close-svg')) {
+            e.preventDefault();
+            document.querySelector('.popup').style.left = '-999999px';
+            document.querySelector('.popup').style.opacity = 0;
+        }
+    })
 };
 
 export default popupEvent;
