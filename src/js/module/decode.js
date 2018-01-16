@@ -16,7 +16,6 @@ const deCode = function (map, coords, positionClick) {
         document.querySelector('.popup').style.top = `${positionClick[0]}px`;
         document.querySelector('.popup').style.opacity = 1;
 
-        console.log('map, coords',map, coords)
         creatPlacemark(map, coords);
 
     });

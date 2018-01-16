@@ -3,12 +3,13 @@
 const testimonialsAll = require('../../components/testimonials.hbs');
 let allTestimonials = [];
 
-const marksFunObj = function(obj) {
+const marksFunObj = function(obj, coord) {
 
 
     allTestimonials.push(obj);
 
-    document.querySelector('.popup__testimonials').innerHTML = testimonialsAll(allTestimonials)
+    console.log(coord)
+    // document.querySelector('.popup__testimonials').innerHTML = testimonialsAll(allTestimonials)
 
 console.log('array', allTestimonials)
     return allTestimonials

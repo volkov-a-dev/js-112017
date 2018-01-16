@@ -17,14 +17,6 @@ const creatPlacemark = function (map, coords) {
         e.stopPropagation();
 
         // console.log(coords[0], coords[1])
-        let placemark = new ymaps.Placemark([coords[0], coords[1]], {
-            balloonContent: 'цвет <strong>голубой</strong>',
-            iconCaption: 'teks'
-        }, {
-            preset: 'islands#blueCircleDotIconWithCaption',
-            iconCaptionMaxWidth: '50'
-        });
-
         let comment = {};
         function formatDate(date) {
             return date < 10 ? '0' + date : date;
@@ -45,16 +37,15 @@ const creatPlacemark = function (map, coords) {
             dataMessage
         };
 
-        marksFunObj(comment)
+        let placemark = new ymaps.Placemark([coords[0], coords[1]], comment );
+
+        marksFunObj(comment, coords);
         popupFormName.value = '';
         popupFormPlace.value = '';
         popupFormMessage.value = '';
 
-        console.log('creat placemark', placemark)
-
         map.geoObjects.add(placemark);
     })
-
 };
 
 export default creatPlacemark;
